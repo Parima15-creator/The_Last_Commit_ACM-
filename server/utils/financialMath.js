@@ -87,11 +87,9 @@ export function checkBillMath(bill) {
   }
 
   const itemsTotalPaise = (bill.items || []).reduce((sum, item) => {
-    const qty = parseInt(item.qty, 10) || 1;
+    // Treat item.price as the total line price for that item
     const pricePaise = toPaise(item.price);
-    // If line item total is already stored or unit price * qty
-    const lineTotal = item.isLineTotal ? pricePaise : pricePaise * qty;
-    return sum + lineTotal;
+    return sum + pricePaise;
   }, 0);
 
   const cgstPaise = toPaise(bill.cgst || 0);
@@ -212,9 +210,8 @@ export function calculateItemSplit(bill, participants = []) {
 
   // 1. Distribute each item among its assigned participants
   items.forEach((item) => {
-    const qty = parseInt(item.qty, 10) || 1;
-    const pricePaise = toPaise(item.price);
-    const itemTotalPaise = item.isLineTotal ? pricePaise : pricePaise * qty;
+    // Treat item.price as the total line price for that item
+    const itemTotalPaise = toPaise(item.price);
 
     const assigned = (item.assignedTo || []).filter((p) => participants.includes(p));
 

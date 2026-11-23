@@ -55,8 +55,8 @@ export function CreateBillPage() {
 
   const fileInputRef = useRef(null);
 
-  // Compute calculated subtotal and total
-  const itemsSubtotal = items.reduce((sum, item) => sum + (parseFloat(item.price) || 0) * (parseInt(item.qty, 10) || 1), 0);
+  // Compute calculated subtotal and total (each item's price is its total line price)
+  const itemsSubtotal = items.reduce((sum, item) => sum + (parseFloat(item.price) || 0), 0);
   const extrasTotal = (parseFloat(cgst) || 0) + (parseFloat(sgst) || 0) + (parseFloat(serviceCharge) || 0) - (parseFloat(discount) || 0) + (parseFloat(roundOff) || 0);
   const calculatedTotal = itemsSubtotal + extrasTotal;
 
@@ -136,7 +136,7 @@ export function CreateBillPage() {
 
     // Update printedTotal if currently 0
     if (printedTotal === 0) {
-      setPrintedTotal(calculatedTotal + p * q);
+      setPrintedTotal(calculatedTotal + p);
     }
   };
 

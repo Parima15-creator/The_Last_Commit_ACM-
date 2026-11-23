@@ -84,10 +84,10 @@ export function SplitPage() {
 
     let totalAssignedFood = 0;
 
-    // Distribute items
+    // Distribute items (item.price is the total line price for that item)
     items.forEach((item) => {
       const assigned = (item.assignedTo || []).filter((p) => participants.includes(p));
-      const itemPrice = parseFloat(item.price) * (parseInt(item.qty, 10) || 1);
+      const itemPrice = parseFloat(item.price) || 0;
       if (assigned.length > 0) {
         const splitAmount = itemPrice / assigned.length;
         assigned.forEach((p) => {

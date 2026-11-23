@@ -43,7 +43,7 @@ export function MainLayout() {
 
       {/* Left Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#FFF4D9] border-r border-[#FFE494] flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:h-screen ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 bg-[#FFF4D9] border-r border-[#FFE494] flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 lg:sticky lg:top-0 lg:h-screen lg:shrink-0 overflow-y-auto ${
           sidebarOpen ? 'translate-x-0 shadow-warm-lg' : '-translate-x-full'
         }`}
       >
