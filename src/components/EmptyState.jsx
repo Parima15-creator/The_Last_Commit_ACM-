@@ -11,7 +11,7 @@ export function EmptyState({
   onAction,
 }) {
   return (
-    <div className="bg-[#FFFDF0] border border-[#FFE494]/70 rounded-3xl p-8 sm:p-12 text-center shadow-warm-sm flex flex-col items-center justify-center max-w-md mx-auto my-6">
+    <div className="text-center flex flex-col items-center justify-center max-w-md mx-auto my-6 p-8 sm:p-12">
       <div className="w-16 h-16 rounded-3xl bg-[#FFF4D9] flex items-center justify-center text-3xl mb-4 shadow-sm border border-[#FFE494]">
         {icon}
       </div>

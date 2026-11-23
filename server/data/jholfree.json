@@ -7,7 +7,16 @@
     "email": "",
     "currency": "₹"
   },
-  "contacts": [],
+  "contacts": [
+    {
+      "id": "contact_1795418324384_899ok",
+      "name": "Lisma Periera",
+      "phone": "7386485941",
+      "email": "lisma@gmail.com",
+      "upiId": "",
+      "createdAt": "2026-11-23T07:18:44.384Z"
+    }
+  ],
   "bills": [],
   "payments": []
 }

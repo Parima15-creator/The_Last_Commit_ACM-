@@ -111,7 +111,7 @@ export function MainLayout() {
             className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/70 hover:bg-white text-xs font-semibold text-[#292929] transition-colors border border-[#FFE494]"
           >
             <Home className="w-4 h-4 text-[#FF8A1E]" />
-            <span>Visit Landing Page &rarr;</span>
+            <span>Visit Landing Page</span>
           </Link>
         </div>
       </aside>

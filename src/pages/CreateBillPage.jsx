@@ -14,6 +14,9 @@ import {
   CreditCard,
   FileText,
   HelpCircle,
+  Check,
+  UserPlus,
+  X,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext.jsx';
 import { api } from '../services/api.js';
@@ -30,6 +33,9 @@ export function CreateBillPage() {
   const [paidBy, setPaidBy] = useState(user.name || 'Me');
   const [notes, setNotes] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState([user.name || 'Me']);
+  const [showAddParticipant, setShowAddParticipant] = useState(false);
+  const [newParticipantName, setNewParticipantName] = useState('');
+  const [isAddingParticipant, setIsAddingParticipant] = useState(false);
 
   // Receipt items list
   const [items, setItems] = useState([]);
@@ -170,6 +176,36 @@ export function CreateBillPage() {
     }
   };
 
+  const handleAddParticipant = async (e) => {
+    e.preventDefault();
+    const participantName = newParticipantName.trim();
+    if (!participantName) return;
+    const existingContact = contacts.find((contact) => contact.name.toLowerCase() === participantName.toLowerCase());
+    if (selectedParticipants.includes(existingContact?.name || participantName)) {
+      showToast('This participant is already selected.', 'warning');
+      return;
+    }
+    if (existingContact) {
+      setSelectedParticipants((current) => [...current, existingContact.name]);
+      setNewParticipantName('');
+      setShowAddParticipant(false);
+      return;
+    }
+    setIsAddingParticipant(true);
+    try {
+      await api.createContact({ name: participantName, phone: '', email: '', upiId: '' });
+      await refreshContacts();
+      setSelectedParticipants((current) => [...current, participantName]);
+      setNewParticipantName('');
+      setShowAddParticipant(false);
+      showToast(`${participantName} added as a participant.`);
+    } catch (err) {
+      showToast(err.message || 'Failed to add participant', 'error');
+    } finally {
+      setIsAddingParticipant(false);
+    }
+  };
+
   // Submit and create bill
   const handleSaveBill = async () => {
     if (!title.trim()) {
@@ -279,9 +315,13 @@ export function CreateBillPage() {
 
         {/* Participants Selector */}
         <div>
-          <label className="block text-xs font-bold text-[#292929] uppercase tracking-wider mb-2">
-            Who was at the table? (Participants)
-          </label>
+          <div className="flex items-center justify-between gap-3 mb-2">
+            <label className="block text-xs font-bold text-[#292929] uppercase tracking-wider">Who was at the table? (Participants)</label>
+            <button type="button" onClick={() => setShowAddParticipant((open) => !open)} className="inline-flex items-center gap-1 text-xs font-bold text-[#FF8A1E] hover:text-[#D96C00] cursor-pointer">
+              {showAddParticipant ? <X className="w-4 h-4" /> : <UserPlus className="w-4 h-4" />}
+              {showAddParticipant ? 'Cancel' : 'Add participant'}
+            </button>
+          </div>
           <div className="flex flex-wrap gap-2 items-center">
             {/* User pill */}
             <button
@@ -293,7 +333,7 @@ export function CreateBillPage() {
                   : 'bg-[#FFFDF7] text-[#6B7280] border border-[#FFE494]'
               }`}
             >
-              {user.name || 'Me'} (You) &check;
+              {user.name || 'Me'} (You) {selectedParticipants.includes(user.name || 'Me') && <Check aria-label="Selected" className="inline w-3.5 h-3.5 ml-1" strokeWidth={3} />}
             </button>
 
             {/* Contacts pills */}
@@ -310,11 +350,19 @@ export function CreateBillPage() {
                       : 'bg-[#FFFDF7] text-[#6B7280] border border-[#FFE494]'
                   }`}
                 >
-                  {c.name} {isSelected && '✓'}
+                  {c.name} {isSelected && <Check aria-label="Selected" className="inline w-3.5 h-3.5 ml-1" strokeWidth={3} />}
                 </button>
               );
             })}
           </div>
+          {showAddParticipant && (
+            <form onSubmit={handleAddParticipant} className="mt-3 flex flex-col sm:flex-row gap-2 max-w-lg">
+              <input autoFocus value={newParticipantName} onChange={(e) => setNewParticipantName(e.target.value)} placeholder="Participant name" aria-label="New participant name" className="flex-1 px-4 py-2 rounded-xl bg-white border border-[#FFE494] text-sm text-[#292929] focus:outline-none focus:border-[#FF8A1E]" />
+              <button type="submit" disabled={!newParticipantName.trim() || isAddingParticipant} className="px-4 py-2 rounded-xl bg-[#009F93] hover:bg-[#00847A] disabled:opacity-40 text-white font-bold text-xs flex items-center justify-center gap-1 cursor-pointer">
+                <Plus className="w-4 h-4" /> {isAddingParticipant ? 'Adding…' : 'Add & Select'}
+              </button>
+            </form>
+          )}
         </div>
       </div>
 
