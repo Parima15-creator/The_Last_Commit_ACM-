@@ -30,8 +30,29 @@
   50% { background-position: 100% 50%; }
 }
 
+.food-orbit-layer { pointer-events: none; }
+
+.food-orbit-image {
+  pointer-events: auto;
+  animation: food-orbit-float 5.5s ease-in-out infinite;
+  transition: transform 350ms cubic-bezier(.2,.8,.2,1), box-shadow 350ms ease;
+  cursor: pointer;
+}
+
+.food-orbit-image:hover {
+  animation-play-state: paused;
+  transform: translateY(-14px) scale(1.18) rotate(7deg);
+  box-shadow: 0 18px 30px rgba(35, 25, 15, 0.24);
+}
+
+@keyframes food-orbit-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -10px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animated-page-gradient { animation: none; }
+  .food-orbit-image { animation: none; transition: none; }
 }
 
 /* Warm, Cheerful Shadows */

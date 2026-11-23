@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   Receipt,
 } from 'lucide-react';
-import { FloatingCoins } from '../components/FloatingCoins.jsx';
+import { FoodOrbit } from '../components/FoodOrbit.jsx';
 
 export function LandingPage() {
   return (
@@ -48,14 +48,7 @@ export function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative z-10 py-16 sm:py-24 px-6 sm:px-12 max-w-6xl mx-auto w-full text-center flex flex-col items-center">
-        {/* Decorative Floating Coins */}
-        <FloatingCoins className="w-full max-w-lg mx-auto" />
-
-        {/* Tag Pill */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFF0E5] border border-[#FF8A1E]/30 text-xs font-bold text-[#FF8A1E] mb-6 shadow-warm-sm">
-          <Sparkles className="w-3.5 h-3.5 fill-[#FF8A1E]" />
-          <span>No Math Errors &bull; No Paise Left Behind</span>
-        </div>
+        <FoodOrbit />
 
         {/* Main Headline */}
         <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-[#292929] max-w-4xl leading-[1.15] mb-6">
@@ -86,22 +79,6 @@ export function LandingPage() {
           >
             <span>Learn How It Works</span>
           </a>
-        </div>
-
-        {/* Food Illustration Ribbon */}
-        <div className="mt-16 flex items-center justify-center gap-3 text-2xl p-3 px-6 rounded-full bg-[#FFF4D9] border border-[#FFE494] shadow-warm-sm">
-          <span>🍕</span>
-          <span>&bull;</span>
-          <span>🍛</span>
-          <span>&bull;</span>
-          <span>☕</span>
-          <span>&bull;</span>
-          <span>🍔</span>
-          <span>&bull;</span>
-          <span>🍰</span>
-          <span className="text-xs font-bold text-[#6B7280] uppercase ml-2 font-sans tracking-wider">
-            Fair splits for every bite
-          </span>
         </div>
       </section>
 
@@ -244,7 +221,7 @@ export function LandingPage() {
       {/* Final CTA Section */}
       <section className="relative z-10 py-20 px-6 sm:px-12 bg-[#FFD83D] text-[#292929] border-t border-[#FFC928] text-center">
         <div className="max-w-4xl mx-auto">
-          <span className="text-2xl mb-4 block">✨ 🍽️ 💰</span>
+          
           <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-4">
             Good food. Good friends. No money confusion.
           </h2>
@@ -275,9 +252,7 @@ export function LandingPage() {
             <Link to="/contacts" className="hover:text-[#292929]">Contacts</Link>
             <Link to="/settings" className="hover:text-[#292929]">Settings</Link>
           </div>
-          <div className="font-mono text-[#6B7280]">
-            Largest Remainder Method &bull; Integer Paise Arithmetic
-          </div>
+
         </div>
       </footer>
     </div>
