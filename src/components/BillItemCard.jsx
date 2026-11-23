@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, CheckCircle, Plus, Trash2, Users, Edit3, ShieldAlert } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Check, Plus, Trash2, Users, Edit3, ShieldAlert } from 'lucide-react';
 import { formatRupees } from '../utils/formatCurrency.js';
 import { toPaise, fromPaise } from '../utils/splitMath.js';
 
@@ -189,7 +189,7 @@ export function BillItemCard({
               }`}
             >
               <span>{person}</span>
-              {isSelected && <span className="text-[10px]">&check;</span>}
+              {isSelected && <Check aria-label="Selected" className="h-3 w-3" strokeWidth={3} />}
             </button>
           );
         })}

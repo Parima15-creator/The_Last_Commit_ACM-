@@ -241,7 +241,7 @@ export function SettlementCard({
                       : 'bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700'
                   }`}
                 >
-                  {tx.isPaid ? 'Paid &check;' : 'Mark Paid'}
+                  {tx.isPaid ? <span className="inline-flex items-center gap-1">Paid <Check aria-label="Paid" className="h-3.5 w-3.5" strokeWidth={3} /></span> : 'Mark Paid'}
                 </button>
               </div>
             </div>

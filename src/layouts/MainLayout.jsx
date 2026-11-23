@@ -49,16 +49,17 @@ export function MainLayout() {
       >
         <div className="p-6">
           {/* Logo & Close Button */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-1">
             <Link
               to="/dashboard"
-              className="flex items-center gap-2.5 group"
+              className="flex flex-1 flex-col items-center gap-1 group"
               onClick={() => setSidebarOpen(false)}
             >
-              <div className="w-10 h-10 rounded-2xl bg-[#FFD83D] flex items-center justify-center font-bold text-lg text-[#292929] shadow-warm border border-[#FFC928]">
+              <img src="/jholfree-logo.png" alt="JholFree" className="block w-32 h-auto object-contain" />
+              <div className="hidden w-10 h-10 rounded-2xl bg-[#FFD83D] flex items-center justify-center font-bold text-lg text-[#292929] shadow-warm border border-[#FFC928]">
                 💸
               </div>
-              <div>
+              <div className="hidden">
                 <span className="font-serif text-2xl font-bold tracking-tight text-[#292929] block">
                   Jhol<span className="text-[#FF8A1E]">Free</span>
                 </span>

@@ -20,11 +20,12 @@ export function LandingPage() {
     <div className="relative isolate min-h-screen animated-page-gradient text-[#292929] flex flex-col overflow-x-hidden">
       {/* Top Header */}
       <header className="relative h-20 bg-white/70 backdrop-blur-md border-b border-[#FFE494]/60 sticky top-0 z-30 px-6 sm:px-12 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5">
-          <div className="w-10 h-10 rounded-2xl bg-[#FFD83D] flex items-center justify-center font-bold text-lg text-[#292929] shadow-warm border border-[#FFC928]">
+        <Link to="/" className="flex items-center">
+          <img src="/jholfree-logo.png" alt="JholFree" className="block w-16 h-auto object-contain" />
+          <div className="hidden w-10 h-10 rounded-2xl bg-[#FFD83D] flex items-center justify-center font-bold text-lg text-[#292929] shadow-warm border border-[#FFC928]">
             💸
           </div>
-          <div>
+          <div className="hidden">
             <span className="font-serif text-2xl font-bold tracking-tight text-[#292929] block">
               Jhol<span className="text-[#FF8A1E]">Free</span>
             </span>

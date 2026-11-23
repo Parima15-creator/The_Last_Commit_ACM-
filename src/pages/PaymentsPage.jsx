@@ -15,6 +15,7 @@ import {
   Mail,
   Smartphone,
   X,
+  ArrowRight,
 } from 'lucide-react';
 import { useApp } from '../context/AppContext.jsx';
 import { api } from '../services/api.js';
@@ -146,7 +147,7 @@ export function PaymentsPage() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-bold text-base text-[#292929]">{p.from}</span>
-                      <span className="text-[#6B7280] text-xs">&rarr; pays &rarr;</span>
+                      <ArrowRight aria-label="pays" className="w-4 h-4 text-[#FF8A1E] shrink-0" />
                       <span className="font-bold text-base text-[#009F93]">{p.to}</span>
                     </div>
                     <div className="text-xs text-[#6B7280] mt-0.5">
@@ -194,18 +195,9 @@ export function PaymentsPage() {
                   </button>
 
                   <button
-                    onClick={() => handleSendWhatsApp(p)}
-                    className="px-3.5 py-2 rounded-xl bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#128C7E] font-bold text-xs border border-[#25D366]/30 flex items-center gap-1.5 transition-colors cursor-pointer"
-                    title="Send WhatsApp Payment Reminder"
-                  >
-                    <MessageSquare className="w-3.5 h-3.5 fill-[#128C7E]" />
-                    <span>WhatsApp</span>
-                  </button>
-
-                  <button
                     onClick={() => handleOpenShare(p)}
                     className="px-3 py-2 rounded-xl bg-[#FFFDF7] hover:bg-[#FFF4D9] text-xs font-semibold text-[#6B7280] border border-[#FFE494] cursor-pointer"
-                    title="More Share Options (SMS, Email)"
+                    title="More Share Options (WhatsApp and SMS)"
                   >
                     <span>More...</span>
                   </button>
@@ -293,7 +285,7 @@ export function PaymentsPage() {
                 <MessageSquare className="w-4 h-4" />
                 WhatsApp Message
               </span>
-              <p className="text-xs text-[#292929] whitespace-pre-line bg-white/80 p-2.5 rounded-xl border border-[#25D366]/20">
+              <p className="text-xs text-[#292929] whitespace-pre-wrap [overflow-wrap:anywhere] bg-white/80 p-2.5 rounded-xl border border-[#25D366]/20">
                 {shareData.whatsapp.message}
               </p>
               <button
@@ -310,7 +302,7 @@ export function PaymentsPage() {
                 <Smartphone className="w-4 h-4 text-[#FF8A1E]" />
                 SMS Text
               </span>
-              <p className="text-[#6B7280] bg-white p-2.5 rounded-xl border border-[#FFE494]">
+              <p className="text-[#6B7280] whitespace-pre-wrap [overflow-wrap:anywhere] bg-white p-2.5 rounded-xl border border-[#FFE494]">
                 {shareData.sms.message}
               </p>
               <button

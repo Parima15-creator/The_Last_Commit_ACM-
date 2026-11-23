@@ -4,6 +4,7 @@ import {
   Split,
   Users,
   CheckCircle2,
+  Check,
   AlertCircle,
   CreditCard,
   Send,
@@ -161,10 +162,9 @@ export function SplitPage() {
         items,
       });
 
-      await refreshBills();
-      await refreshPayments();
       showToast('Split calculated and payment requests generated!');
       navigate('/payments');
+      void Promise.allSettled([refreshBills(), refreshPayments()]);
     } catch (err) {
       console.error('Finalize split error:', err);
       showToast(err.message || 'Failed to finalize split', 'error');
@@ -285,7 +285,7 @@ export function SplitPage() {
                     : 'bg-[#FFFDF7] text-[#6B7280] border border-[#FFE494]'
                 }`}
               >
-                {user.name || 'Me'} (You) &check;
+                {user.name || 'Me'} (You) {participants.includes(user.name || 'Me') && <Check aria-label="Selected" className="inline w-3.5 h-3.5 ml-1" strokeWidth={3} />}
               </button>
 
               {/* Contacts */}
@@ -523,7 +523,7 @@ export function SplitPage() {
               disabled={isFinalizing}
               className="px-8 py-4 rounded-full bg-[#009F93] hover:bg-[#00847A] text-white font-bold text-sm shadow-teal transition-all active:scale-95 cursor-pointer flex items-center gap-2"
             >
-              <span>{isFinalizing ? 'Finalizing Split...' : 'Generate Payment Requests →'}</span>
+              <span>{isFinalizing ? 'Finalizing Split...' : 'Generate Payment Requests'}</span>
             </button>
           </div>
         </>
