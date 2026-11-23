@@ -23,6 +23,19 @@ export const config = {
   // Database path
   dbPath: process.env.DATABASE_URL || path.resolve(__dirname, '../data/jholfree.json'),
 
+  // Authentication MySQL database (the bill store remains JSON for now)
+  authDbHost: process.env.AUTH_DB_HOST || '127.0.0.1',
+  authDbPort: parseInt(process.env.AUTH_DB_PORT || '3306', 10),
+  authDbName: process.env.AUTH_DB_NAME || 'jholfree_auth',
+  authDbUser: process.env.AUTH_DB_USER || 'root',
+  authDbPassword: process.env.AUTH_DB_PASSWORD || '',
+  authOtpTtlSeconds: parseInt(process.env.AUTH_OTP_TTL_SECONDS || '300', 10),
+  authSessionDays: parseInt(process.env.AUTH_SESSION_DAYS || '7', 10),
+  authGoogleClientId: process.env.GOOGLE_CLIENT_ID || '',
+  authGoogleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+  authGoogleRedirectUri: process.env.GOOGLE_REDIRECT_URI || 'http://localhost:5000/api/auth/google/callback',
+  appUrl: process.env.APP_URL || 'http://localhost:5173',
+
   // UPI Defaults
   upiDefaultId: process.env.UPI_DEFAULT_ID || 'you.jholfree@okaxis',
   upiDefaultName: process.env.UPI_DEFAULT_NAME || 'Me',

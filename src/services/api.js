@@ -36,6 +36,19 @@ async function request(endpoint, options = {}) {
 }
 
 export const api = {
+  // Authentication
+  requestPhoneOtp: (phone) => request('/auth/phone/request-otp', {
+    method: 'POST',
+    body: JSON.stringify({ phone }),
+  }),
+  verifyPhoneOtp: (phone, otp) => request('/auth/phone/verify', {
+    method: 'POST',
+    body: JSON.stringify({ phone, otp }),
+  }),
+  getCurrentUser: (token) => request('/auth/me', {
+    headers: { Authorization: `Bearer ${token}` },
+  }),
+
   // Dashboard
   getDashboardStats: () => request('/dashboard/stats'),
 

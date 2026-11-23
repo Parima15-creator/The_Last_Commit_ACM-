@@ -9,19 +9,28 @@ import {
   Phone,
   ShieldCheck,
 } from 'lucide-react';
+import { api } from '../services/api.js';
 
 export function AuthPage() {
   const navigate = useNavigate();
-  const [mode, setMode] = useState('phone');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
 
-  const continueToApp = () => {
-    setIsSigningIn(true);
-    window.setTimeout(() => navigate('/dashboard'), 450);
+  React.useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('authToken');
+    if (token) {
+      localStorage.setItem('jholfree_auth_token', token);
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
+  const continueWithGoogle = () => {
+    window.location.href = '/api/auth/google';
   };
 
   const handleSendOtp = (event) => {
@@ -30,26 +39,39 @@ export function AuthPage() {
 
     if (digits.length < 10) {
       setError('Enter a valid 10-digit phone number.');
+      setNotice('');
       return;
     }
 
     setError('');
-    setOtpSent(true);
+    setNotice('');
+    api.requestPhoneOtp(phone)
+      .then((response) => {
+        setOtpSent(true);
+        if (response.devOtp) setNotice(`Development OTP: ${response.devOtp}`);
+      })
+      .catch((requestError) => setError(requestError.message));
   };
 
   const handleVerifyOtp = (event) => {
     event.preventDefault();
     if (otp.replace(/\D/g, '').length !== 6) {
       setError('Enter the 6-digit code sent to your phone.');
+      setNotice('');
       return;
     }
     setError('');
-    continueToApp();
-  };
-
-  const selectPhoneMode = () => {
-    setMode('phone');
-    setError('');
+    setNotice('');
+    setIsSigningIn(true);
+    api.verifyPhoneOtp(phone, otp)
+      .then(({ token }) => {
+        localStorage.setItem('jholfree_auth_token', token);
+        navigate('/dashboard');
+      })
+      .catch((verifyError) => {
+        setIsSigningIn(false);
+        setError(verifyError.message);
+      });
   };
 
   return (
@@ -103,7 +125,7 @@ export function AuthPage() {
 
             <button
               type="button"
-              onClick={continueToApp}
+              onClick={continueWithGoogle}
               disabled={isSigningIn}
               className="w-full h-12 rounded-xl border border-[#D9D9D9] bg-white hover:bg-[#FAFAFA] text-[#292929] font-semibold flex items-center justify-center gap-3 transition-colors disabled:opacity-60"
             >
@@ -166,6 +188,7 @@ export function AuthPage() {
               </form>
             )}
 
+            {notice && <p className="mt-3 text-sm text-[#00847A]" role="status">{notice}</p>}
             {error && <p className="mt-3 text-sm text-red-600" role="alert">{error}</p>}
 
             <div className="mt-8 pt-6 border-t border-[#E5E7EB] flex items-start gap-3 text-xs text-[#6B7280] leading-relaxed">
