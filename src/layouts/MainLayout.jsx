@@ -32,7 +32,7 @@ export function MainLayout() {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen bg-[#FFFDF7] flex flex-col lg:flex-row">
+    <div className="relative isolate min-h-screen animated-page-gradient flex flex-col lg:flex-row">
       {/* Mobile Backdrop */}
       {sidebarOpen && (
         <div
@@ -117,7 +117,7 @@ export function MainLayout() {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="relative z-10 flex-1 flex flex-col min-w-0">
         <Navbar onToggleSidebar={() => setSidebarOpen(true)} />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
           <Outlet />

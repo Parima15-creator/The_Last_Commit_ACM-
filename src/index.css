@@ -19,6 +19,21 @@
   }
 }
 
+.animated-page-gradient {
+  background: linear-gradient(125deg, #fffdf7 0%, #fff0bd 22%, #ffe0cf 46%, #d9f4e9 70%, #e9e3ff 86%, #fffdf7 100%);
+  background-size: 400% 400%;
+  animation: warm-gradient-shift 12s ease-in-out infinite;
+}
+
+@keyframes warm-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animated-page-gradient { animation: none; }
+}
+
 /* Warm, Cheerful Shadows */
 .shadow-warm-sm {
   box-shadow: 0 2px 8px -2px rgba(255, 138, 30, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);

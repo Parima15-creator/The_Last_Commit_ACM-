@@ -441,10 +441,7 @@ export function CreateBillPage() {
             />
             <div>
               <span className="text-xs font-bold text-[#009F93] block">
-                &check; Receipt Image Captured
-              </span>
-              <span className="text-[11px] text-[#6B7280]">
-                Canvas thermal filter applied (Grayscale + 150% contrast)
+                 Receipt Image Captured
               </span>
             </div>
           </div>
@@ -566,7 +563,7 @@ export function CreateBillPage() {
         {/* Section 4: Taxes, Service Charge, Discount & Math Check */}
         <div className="pt-6 border-t border-[#FFE494]/80 space-y-4">
           <h4 className="font-serif text-lg font-bold text-[#292929]">
-            4. Taxes, Charges & Verification
+             Taxes, Charges & Verification
           </h4>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs">

@@ -17,9 +17,9 @@ import { FloatingCoins } from '../components/FloatingCoins.jsx';
 
 export function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#FFFDF7] text-[#292929] flex flex-col overflow-x-hidden">
+    <div className="relative isolate min-h-screen animated-page-gradient text-[#292929] flex flex-col overflow-x-hidden">
       {/* Top Header */}
-      <header className="h-20 bg-white/70 backdrop-blur-md border-b border-[#FFE494]/60 sticky top-0 z-30 px-6 sm:px-12 flex items-center justify-between">
+      <header className="relative h-20 bg-white/70 backdrop-blur-md border-b border-[#FFE494]/60 sticky top-0 z-30 px-6 sm:px-12 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5">
           <div className="w-10 h-10 rounded-2xl bg-[#FFD83D] flex items-center justify-center font-bold text-lg text-[#292929] shadow-warm border border-[#FFC928]">
             💸
@@ -35,12 +35,7 @@ export function LandingPage() {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Link
-            to="/bills"
-            className="text-sm font-semibold text-[#6B7280] hover:text-[#292929] transition-colors hidden sm:block"
-          >
-            My Bills
-          </Link>
+          
           <Link
             to="/dashboard"
             className="px-6 py-2.5 rounded-full bg-[#FFD83D] hover:bg-[#FFC928] text-[#292929] font-bold text-sm shadow-warm-sm transition-all border border-[#FFC928] active:scale-95 cursor-pointer flex items-center gap-1.5"
@@ -52,7 +47,7 @@ export function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-24 px-6 sm:px-12 max-w-6xl mx-auto w-full text-center flex flex-col items-center">
+      <section className="relative z-10 py-16 sm:py-24 px-6 sm:px-12 max-w-6xl mx-auto w-full text-center flex flex-col items-center">
         {/* Decorative Floating Coins */}
         <FloatingCoins className="w-full max-w-lg mx-auto" />
 
@@ -111,7 +106,7 @@ export function LandingPage() {
       </section>
 
       {/* Feature Section */}
-      <section className="py-20 px-6 sm:px-12 bg-white border-y border-[#FFE494]/60">
+      <section className="relative z-10 py-20 px-6 sm:px-12 bg-white/65 backdrop-blur-[2px] border-y border-[#FFE494]/60">
         <div className="max-w-6xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs font-bold text-[#FF8A1E] uppercase tracking-wider block mb-2 font-mono">
@@ -192,7 +187,7 @@ export function LandingPage() {
       </section>
 
       {/* How it Works Section */}
-      <section id="how-it-works" className="py-20 px-6 sm:px-12 bg-[#FFFDF7]">
+      <section id="how-it-works" className="relative z-10 py-20 px-6 sm:px-12 bg-white/25">
         <div className="max-w-5xl mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs font-bold text-[#FF8A1E] uppercase tracking-wider block mb-2 font-mono">
@@ -247,7 +242,7 @@ export function LandingPage() {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-6 sm:px-12 bg-[#FFD83D] text-[#292929] border-t border-[#FFC928] text-center">
+      <section className="relative z-10 py-20 px-6 sm:px-12 bg-[#FFD83D] text-[#292929] border-t border-[#FFC928] text-center">
         <div className="max-w-4xl mx-auto">
           <span className="text-2xl mb-4 block">✨ 🍽️ 💰</span>
           <h2 className="font-serif text-3xl sm:text-5xl font-bold mb-4">
@@ -268,7 +263,7 @@ export function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white py-12 px-6 sm:px-12 border-t border-[#FFE494]/80 text-center text-xs text-[#6B7280]">
+      <footer className="relative z-10 bg-white/65 backdrop-blur-[2px] py-12 px-6 sm:px-12 border-t border-[#FFE494]/80 text-center text-xs text-[#6B7280]">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <span className="font-serif font-bold text-base text-[#292929]">JholFree</span>
