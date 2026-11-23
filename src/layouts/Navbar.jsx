@@ -38,11 +38,7 @@ export function Navbar({ onToggleSidebar }) {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Groq AI Badge */}
-        <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF0E5] border border-[#FF8A1E]/30 text-xs font-semibold text-[#FF8A1E]">
-          <Zap className="w-3.5 h-3.5 fill-[#FF8A1E]" />
-          <span>{aiHealth?.hasGroqKey ? 'Groq Vision Ready' : 'AI Offline (Manual Mode)'}</span>
-        </div>
+        
 
         {/* Quick New Bill Button */}
         {location.pathname !== '/create-bill' && (
