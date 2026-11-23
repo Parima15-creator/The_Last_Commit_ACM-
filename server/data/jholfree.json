@@ -1,0 +1,13 @@
+{
+  "user": {
+    "id": "user_default",
+    "name": "Me",
+    "upiId": "you.jholfree@okaxis",
+    "phone": "",
+    "email": "",
+    "currency": "₹"
+  },
+  "contacts": [],
+  "bills": [],
+  "payments": []
+}

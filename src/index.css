@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'DM Serif Display', 'Lora', Georgia, serif;
+    --font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #FFFDF7;
+    color: #292929;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-serif-heading {
+    font-family: var(--font-heading);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Warm, Cheerful Shadows */
+.shadow-warm-sm {
+  box-shadow: 0 2px 8px -2px rgba(255, 138, 30, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-warm {
+  box-shadow: 0 8px 24px -4px rgba(255, 138, 30, 0.12), 0 2px 8px -2px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-warm-lg {
+  box-shadow: 0 16px 36px -6px rgba(255, 138, 30, 0.18), 0 4px 12px -2px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-teal {
+  box-shadow: 0 6px 20px -3px rgba(0, 159, 147, 0.28);
+}
+
+/* Gentle Floating Animations */
+@keyframes float-coin {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(6deg);
+  }
+}
+
+@keyframes float-coin-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-4deg);
+  }
+}
+
+.animate-float-coin {
+  animation: float-coin 3.8s ease-in-out infinite;
+}
+
+.animate-float-coin-slow {
+  animation: float-coin-slow 4.5s ease-in-out infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF4D9;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFD83D;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFC928;
+}
