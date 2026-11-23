@@ -4,6 +4,7 @@ import { AppProvider } from './context/AppContext.jsx';
 
 import { MainLayout } from './layouts/MainLayout.jsx';
 import { LandingPage } from './pages/LandingPage.jsx';
+import { AuthPage } from './pages/AuthPage.jsx';
 import { DashboardPage } from './pages/DashboardPage.jsx';
 import { BillsPage } from './pages/BillsPage.jsx';
 import { CreateBillPage } from './pages/CreateBillPage.jsx';
@@ -20,6 +21,7 @@ export default function App() {
         <Routes>
           {/* Landing Page */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/auth" element={<AuthPage />} />
 
           {/* App Sections inside MainLayout */}
           <Route element={<MainLayout />}>

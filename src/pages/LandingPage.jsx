@@ -38,7 +38,7 @@ export function LandingPage() {
         <div className="flex items-center gap-4">
           
           <Link
-            to="/dashboard"
+            to="/auth"
             className="px-6 py-2.5 rounded-full bg-[#FFD83D] hover:bg-[#FFC928] text-[#292929] font-bold text-sm shadow-warm-sm transition-all border border-[#FFC928] active:scale-95 cursor-pointer flex items-center gap-1.5"
           >
             <span>Open App</span>
@@ -68,7 +68,7 @@ export function LandingPage() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
           <Link
-            to="/dashboard"
+            to="/auth"
             className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#009F93] hover:bg-[#00847A] text-white font-bold text-base shadow-teal transition-all active:scale-95 cursor-pointer flex items-center justify-center gap-2"
           >
             <span>Get Started Free</span>
