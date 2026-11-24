@@ -23,9 +23,12 @@ export function AuthPage() {
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('authToken');
+    const authError = params.get('authError');
     if (token) {
       localStorage.setItem('jholfree_auth_token', token);
       navigate('/dashboard', { replace: true });
+    } else if (authError) {
+      setError(authError);
     }
   }, [navigate]);
 

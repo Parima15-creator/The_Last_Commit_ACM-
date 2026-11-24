@@ -1,8 +1,13 @@
+-- Paste this entire script into phpMyAdmin > SQL.
+-- It is safe to run more than once because it does not drop existing data.
+
 CREATE DATABASE IF NOT EXISTS jholfree_auth
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
 USE jholfree_auth;
+
+SET NAMES utf8mb4;
 
 CREATE TABLE IF NOT EXISTS users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,

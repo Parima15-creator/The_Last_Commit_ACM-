@@ -1,26 +1,13 @@
-﻿{
-    "user":  {
-                 "id":  "user_default",
-                 "name":  "Parima Tendulkar",
-                 "upiId":  "you.jholfree@okaxis",
-                 "phone":  "",
-                 "email":  "",
-                 "currency":  "â‚¹"
-             },
-    "contacts":  [
-                     {
-                         "id":  "contact_1795418324384_899ok",
-                         "name":  "Lisma Periera",
-                         "phone":  "7386485941",
-                         "email":  "lisma@gmail.com",
-                         "upiId":  "",
-                         "createdAt":  "2026-11-23T07:18:44.384Z"
-                     }
-                 ],
-    "bills":  [
-
-              ],
-    "payments":  [
-
-                 ]
+{
+  "user": {
+    "id": "user_default",
+    "name": "Me",
+    "upiId": "you.jholfree@okaxis",
+    "phone": "",
+    "email": "",
+    "currency": "₹"
+  },
+  "contacts": [],
+  "bills": [],
+  "payments": []
 }

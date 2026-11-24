@@ -94,7 +94,8 @@ export async function verifyPhoneOtp(req, res, next) {
 
 export function startGoogleAuth(req, res) {
   if (!config.authGoogleClientId || !config.authGoogleClientSecret) {
-    return res.status(503).json({ error: 'Google sign-in is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env.' });
+    const message = 'Google sign-in is not configured. Add GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to .env.';
+    return res.redirect(`${config.appUrl}/auth?authError=${encodeURIComponent(message)}`);
   }
 
   const state = crypto.randomBytes(24).toString('hex');
