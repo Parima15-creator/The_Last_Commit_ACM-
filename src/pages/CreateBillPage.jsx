@@ -237,10 +237,15 @@ export function CreateBillPage() {
         receiptImage: enhancedImage || receiptImage || null,
       });
 
-      await refreshBills();
+      if (!created?.id) {
+        throw new Error('Bill was saved but no bill ID was returned.');
+      }
+      // Open the split flow as soon as the server confirms creation. Refreshing
+      // the bills list is useful for the rest of the app, but should not block
+      // navigation to the newly created bill.
+      navigate(`/split/${created.id}`, { replace: true, state: { bill: created } });
       showToast(`Bill "${created.title}" created successfully!`);
-      // Redirect to split page for this bill
-      navigate(`/split/${created.id}`);
+      void refreshBills();
     } catch (err) {
       console.error('Save bill error:', err);
       showToast(err.message || 'Failed to save bill', 'error');
@@ -503,7 +508,7 @@ export function CreateBillPage() {
 
                 {item.confidence === 'low' && (
                   <span className="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
-                    Check OCR
+                    Check
                   </span>
                 )}
 
@@ -677,7 +682,7 @@ export function CreateBillPage() {
           disabled={isSaving || items.length === 0}
           className="px-8 py-3.5 rounded-full bg-[#009F93] hover:bg-[#00847A] disabled:opacity-40 text-white font-bold text-sm shadow-teal transition-all active:scale-95 cursor-pointer flex items-center gap-2"
         >
-          {isSaving ? 'Saving Bill...' : 'Save & Choose Split Mode →'}
+          {isSaving ? 'Saving Bill...' : 'Save & Choose Split Mode'}
         </button>
       </div>
     </div>

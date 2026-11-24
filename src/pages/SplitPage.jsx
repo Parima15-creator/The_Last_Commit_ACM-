@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   Split,
   Users,
@@ -22,10 +22,11 @@ import { EmptyState } from '../components/EmptyState.jsx';
 export function SplitPage() {
   const { billId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { bills, contacts, user, refreshBills, refreshPayments, showToast } = useApp();
 
   const [selectedBillId, setSelectedBillId] = useState(billId || '');
-  const [bill, setBill] = useState(null);
+  const [bill, setBill] = useState(location.state?.bill || null);
   const [splitMode, setSplitMode] = useState('equal'); // 'equal' | 'item'
   const [participants, setParticipants] = useState([]);
   const [items, setItems] = useState([]);
@@ -173,7 +174,17 @@ export function SplitPage() {
     }
   };
 
-  if (!bills || bills.length === 0) {
+  if (loading) {
+    return (
+      <div className="max-w-5xl mx-auto pb-12">
+        <div className="bg-white border border-[#FFE494] rounded-3xl p-8 text-center text-sm font-semibold text-[#6B7280] shadow-warm-sm">
+          Loading bill and split options...
+        </div>
+      </div>
+    );
+  }
+
+  if ((!bills || bills.length === 0) && !bill) {
     return (
       <EmptyState
         icon="🍕"
@@ -205,7 +216,11 @@ export function SplitPage() {
           </label>
           <select
             value={selectedBillId}
-            onChange={(e) => setSelectedBillId(e.target.value)}
+            onChange={(e) => {
+              const nextBillId = e.target.value;
+              setSelectedBillId(nextBillId);
+              navigate(`/split/${nextBillId}`, { replace: true });
+            }}
             className="px-4 py-2 rounded-2xl bg-white border border-[#FFE494] text-xs font-bold text-[#292929] shadow-warm-sm focus:outline-none focus:border-[#FF8A1E]"
           >
             {bills.map((b) => (
