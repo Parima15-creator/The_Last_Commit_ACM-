@@ -45,6 +45,14 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ phone, otp }),
   }),
+  requestEmailOtp: (email, purpose = 'login', challengeId) => request('/auth/email/request-otp', {
+    method: 'POST',
+    body: JSON.stringify({ email, purpose, challengeId }),
+  }),
+  verifyEmailOtp: (challengeId, otp) => request('/auth/email/verify', {
+    method: 'POST',
+    body: JSON.stringify({ challengeId, otp }),
+  }),
   getCurrentUser: (token) => request('/auth/me', {
     headers: { Authorization: `Bearer ${token}` },
   }),

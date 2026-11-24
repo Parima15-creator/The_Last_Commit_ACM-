@@ -101,6 +101,8 @@ GROQ_VISION_MODEL=qwen/qwen3.8-27b
 GROQ_TEXT_MODEL=openai/gpt-oss-120b
 ```
 
+Phone sign-in sends a standard SMS through the backend. To enable delivery, add a Twilio Account SID, Auth Token, and SMS-capable sender number as `SMS_ACCOUNT_SID`, `SMS_AUTH_TOKEN`, and `SMS_FROM_NUMBER` in `.env`. Users do not need to install a separate app. SMS delivery requires an SMS gateway account and may require enabling delivery to Indian numbers in that account.
+
 ### 3. Run Financial Math Unit Tests
 ```bash
 npm test

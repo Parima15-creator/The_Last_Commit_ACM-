@@ -2,6 +2,8 @@ import express from 'express';
 import {
   requestPhoneOtp,
   verifyPhoneOtp,
+  requestEmailOtp,
+  verifyEmailOtp,
   startGoogleAuth,
   handleGoogleCallback,
   getCurrentUser,
@@ -12,6 +14,8 @@ const router = express.Router();
 
 router.post('/phone/request-otp', requestPhoneOtp);
 router.post('/phone/verify', verifyPhoneOtp);
+router.post('/email/request-otp', requestEmailOtp);
+router.post('/email/verify', verifyEmailOtp);
 router.get('/google', startGoogleAuth);
 router.get('/google/callback', handleGoogleCallback);
 router.get('/me', getCurrentUser);

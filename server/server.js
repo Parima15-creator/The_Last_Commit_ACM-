@@ -11,6 +11,7 @@ import aiRoutes from './routes/aiRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import settingsRoutes from './routes/settingsRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import { checkAuthDbConnection, ensureEmailOtpSchema } from './db/authDb.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,11 +56,24 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = config.port || 5000;
-app.listen(PORT, () => {
-  console.log(`[JholFree Server] running on http://localhost:${PORT}`);
-  if (config.groqApiKey) {
-    console.log(`[Groq] Ready with Vision: ${config.groqVisionModel}, Text: ${config.groqTextModel}`);
-  } else {
-    console.log('[Groq] Disabled. Add GROQ_API_KEY to .env to enable receipt OCR and voice splitting.');
+
+async function startServer() {
+  try {
+    await checkAuthDbConnection();
+    await ensureEmailOtpSchema();
+    console.log(`[MySQL] Auth database connected: ${config.authDbName}`);
+  } catch (error) {
+    console.error(`[MySQL] Auth database unavailable: ${error.message}`);
   }
-});
+
+  app.listen(PORT, () => {
+    console.log(`[JholFree Server] running on http://localhost:${PORT}`);
+    if (config.groqApiKey) {
+      console.log(`[Groq] Ready with Vision: ${config.groqVisionModel}, Text: ${config.groqTextModel}`);
+    } else {
+      console.log('[Groq] Disabled. Add GROQ_API_KEY to .env to enable receipt OCR and voice splitting.');
+    }
+  });
+}
+
+startServer();

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Camera, Upload, Sparkles, Sliders, AlertCircle, FileText, CheckCircle } from 'lucide-react';
-import { enhanceReceiptImage, parseReceiptImage } from '../utils/gemini.js';
+import { enhanceReceiptImage } from '../utils/gemini.js';
+import { api } from '../services/api.js';
 
 export function ReceiptUploader({ onReceiptParsed, apiKey, onAddAuditEvent }) {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -35,10 +36,10 @@ export function ReceiptUploader({ onReceiptParsed, apiKey, onAddAuditEvent }) {
         description: `Receipt image "${file.name}" uploaded (${Math.round(file.size / 1024)} KB). Canvas enhancement applied.`,
       });
 
-      // Step 2: Gemini OCR processing
+      // Step 2: OCR processing through the protected backend
       setProcessingStep('Extracting line items, prices & taxes with AI Vision...');
-      
-      const parsedBill = await parseReceiptImage(enhancedBase64, apiKey);
+
+      const parsedBill = await api.extractReceipt(enhancedBase64, 'image/jpeg');
 
       onAddAuditEvent?.({
         type: 'AI_EXTRACTION_COMPLETED',

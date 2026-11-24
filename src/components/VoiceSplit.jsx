@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Mic, MicOff, Sparkles, Volume2, Check, X, ArrowRight, CornerDownLeft, AlertCircle } from 'lucide-react';
 import { useSpeechRecognition } from '../hooks/useSpeechRecognition.js';
-import { mapVoiceToItems } from '../utils/gemini.js';
 import { SAMPLE_VOICE_PROMPTS } from '../utils/voiceRecognition.js';
+import { api } from '../services/api.js';
 
 export function VoiceSplit({ items, people, onApplyAssignments, apiKey, onAddAuditEvent }) {
   const {
@@ -42,7 +42,7 @@ export function VoiceSplit({ items, people, onApplyAssignments, apiKey, onAddAud
     setProposedChanges(null);
 
     try {
-      const result = await mapVoiceToItems(text, items, apiKey);
+      const result = await api.voiceSplit(text, items, people?.[0] || 'Me');
       setProposedChanges({
         transcript: text,
         people: result.people || [],

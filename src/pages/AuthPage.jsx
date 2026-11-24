@@ -6,16 +6,19 @@ import {
   Check,
   ChevronLeft,
   LockKeyhole,
-  Phone,
+  Mail,
   ShieldCheck,
 } from 'lucide-react';
 import { api } from '../services/api.js';
 
 export function AuthPage() {
   const navigate = useNavigate();
-  const [phone, setPhone] = useState('');
+  const [contact, setContact] = useState('');
+  const [contactType, setContactType] = useState('email');
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+  const [challengeId, setChallengeId] = useState('');
+  const [resendSeconds, setResendSeconds] = useState(0);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
@@ -36,22 +39,57 @@ export function AuthPage() {
     window.location.href = '/api/auth/google';
   };
 
+  React.useEffect(() => {
+    if (!resendSeconds) return undefined;
+    const timer = window.setInterval(() => {
+      setResendSeconds((seconds) => (seconds > 0 ? seconds - 1 : 0));
+    }, 1000);
+    return () => window.clearInterval(timer);
+  }, [resendSeconds]);
+
   const handleSendOtp = (event) => {
     event.preventDefault();
-    const digits = phone.replace(/\D/g, '');
-
-    if (digits.length < 10) {
-      setError('Enter a valid 10-digit phone number.');
+    const value = contact.trim();
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    const isPhone = /^\+?[\d\s()-]{10,15}$/.test(value) && value.replace(/\D/g, '').length === 10;
+    if (!isEmail && !isPhone) {
+      setError('Enter a valid email address or 10-digit phone number.');
       setNotice('');
       return;
     }
+    setContactType(isEmail ? 'email' : 'phone');
 
     setError('');
     setNotice('');
-    api.requestPhoneOtp(phone)
+    (isEmail ? api.requestEmailOtp(value, 'login') : api.requestPhoneOtp(value))
       .then((response) => {
-        setOtpSent(true);
+        setChallengeId(response.challengeId);
+        setOtpSent(Boolean(response.emailSent || response.smsSent || response.devOtp));
+        setResendSeconds(response.retryAfterSeconds || 60);
         if (response.devOtp) setNotice(`Development OTP: ${response.devOtp}`);
+        if (isEmail && !response.emailSent && !response.devOtp) {
+          setOtpSent(false);
+          setError('Email delivery is not configured. Add SMTP settings to the backend .env file.');
+        }
+        if (!isEmail && !response.smsSent && !response.devOtp) {
+          setOtpSent(false);
+          setError('SMS delivery is not configured. Add SMS gateway credentials to the backend .env file.');
+        }
+      })
+      .catch((requestError) => setError(requestError.message));
+  };
+
+  const handleResendOtp = () => {
+    if (!challengeId || resendSeconds > 0) return;
+    setError('');
+    setNotice('');
+    (contactType === 'email'
+      ? api.requestEmailOtp(contact.trim(), 'login', challengeId)
+      : api.requestPhoneOtp(contact.trim()))
+      .then((response) => {
+        setChallengeId(response.challengeId);
+        setResendSeconds(response.retryAfterSeconds || 60);
+        setNotice(response.emailSent || response.smsSent ? 'A new verification code was sent.' : `Development OTP: ${response.devOtp}`);
       })
       .catch((requestError) => setError(requestError.message));
   };
@@ -59,14 +97,16 @@ export function AuthPage() {
   const handleVerifyOtp = (event) => {
     event.preventDefault();
     if (otp.replace(/\D/g, '').length !== 6) {
-      setError('Enter the 6-digit code sent to your phone.');
+      setError(`Enter the 6-digit code sent to your ${contactType === 'email' ? 'email' : 'phone'}.`);
       setNotice('');
       return;
     }
     setError('');
     setNotice('');
     setIsSigningIn(true);
-    api.verifyPhoneOtp(phone, otp)
+    (contactType === 'email'
+      ? api.verifyEmailOtp(challengeId, otp)
+      : api.verifyPhoneOtp(contact.trim(), otp))
       .then(({ token }) => {
         localStorage.setItem('jholfree_auth_token', token);
         navigate('/dashboard');
@@ -138,27 +178,23 @@ export function AuthPage() {
 
             <div className="flex items-center gap-3 my-7">
               <div className="h-px flex-1 bg-[#E5E7EB]" />
-              <span className="text-xs text-[#9CA3AF] font-medium">OR CONTINUE WITH PHONE</span>
+              <span className="text-xs text-[#9CA3AF] font-medium">OR CONTINUE WITH EMAIL OR PHONE</span>
               <div className="h-px flex-1 bg-[#E5E7EB]" />
             </div>
 
             {!otpSent ? (
               <form onSubmit={handleSendOtp}>
-                <label htmlFor="phone" className="block text-sm font-semibold mb-2">Phone number</label>
-                <div className="flex h-12 rounded-xl border border-[#D9D9D9] bg-white overflow-hidden focus-within:border-[#009F93] focus-within:ring-4 focus-within:ring-[#009F93]/10">
-                  <span className="px-3 flex items-center gap-1.5 text-sm text-[#6B7280] border-r border-[#E5E7EB]">
-                    <Phone className="w-4 h-4" />
-                    +91
-                  </span>
+                <label htmlFor="contact" className="block text-sm font-semibold mb-2">Email address or phone number</label>
+                <div className="relative">
+                  <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]" />
                   <input
-                    id="phone"
-                    type="tel"
-                    inputMode="numeric"
-                    autoComplete="tel"
-                    value={phone}
-                    onChange={(event) => setPhone(event.target.value)}
-                    placeholder="98765 43210"
-                    className="min-w-0 flex-1 px-3 outline-none text-sm"
+                    id="contact"
+                    type="text"
+                    autoComplete="email tel"
+                    value={contact}
+                    onChange={(event) => setContact(event.target.value)}
+                    placeholder="you@example.com or 9876543210"
+                    className="w-full h-12 rounded-xl border border-[#D9D9D9] bg-white pl-10 pr-3 outline-none text-sm focus:border-[#009F93] focus:ring-4 focus:ring-[#009F93]/10"
                   />
                 </div>
                 <button type="submit" className="w-full h-12 mt-4 rounded-xl bg-[#009F93] hover:bg-[#00847A] text-white font-bold flex items-center justify-center gap-2 shadow-teal transition-all active:scale-[.99]">
@@ -169,7 +205,7 @@ export function AuthPage() {
             ) : (
               <form onSubmit={handleVerifyOtp}>
                 <button type="button" onClick={() => setOtpSent(false)} className="text-sm text-[#009F93] font-semibold hover:underline mb-4">
-                  <span className="inline-flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Change number</span>
+                  <span className="inline-flex items-center gap-1"><ChevronLeft className="w-4 h-4" /> Change email or phone</span>
                 </button>
                 <label htmlFor="otp" className="block text-sm font-semibold mb-2">Enter verification code</label>
                 <input
@@ -183,7 +219,12 @@ export function AuthPage() {
                   placeholder="••••••"
                   className="w-full h-12 rounded-xl border border-[#D9D9D9] bg-white px-4 text-center tracking-[0.45em] text-lg outline-none focus:border-[#009F93] focus:ring-4 focus:ring-[#009F93]/10"
                 />
-                <p className="text-xs text-[#6B7280] mt-2">We sent a 6-digit code to +91 {phone}.</p>
+                <div className="flex items-center justify-between mt-2">
+                  <p className="text-xs text-[#6B7280]">We sent a 6-digit code to {contact}.</p>
+                  <button type="button" onClick={handleResendOtp} disabled={resendSeconds > 0} className="text-xs font-semibold text-[#009F93] disabled:text-[#9CA3AF]">
+                    {resendSeconds > 0 ? `Resend in ${resendSeconds}s` : 'Resend code'}
+                  </button>
+                </div>
                 <button type="submit" className="w-full h-12 mt-4 rounded-xl bg-[#009F93] hover:bg-[#00847A] text-white font-bold flex items-center justify-center gap-2 shadow-teal transition-all active:scale-[.99]">
                   Verify and continue
                   <ArrowRight className="w-4 h-4" />
